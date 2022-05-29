@@ -5,7 +5,7 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
-        <form action="{{ route("admin_search") }}" method="POST" role="search" class="mb-4">
+        <form action="{{ route("search") }}" method="POST" role="search" class="mb-4">
             @csrf
             <input type="text" placeholder="Search any book" id="query" name="query" class="form-control mt-0">
         </form>

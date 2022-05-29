@@ -5,7 +5,7 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
-        <form action="<?php echo e(route("admin_search")); ?>" method="POST" role="search" class="mb-4">
+        <form action="<?php echo e(route("search")); ?>" method="POST" role="search" class="mb-4">
             <?php echo csrf_field(); ?>
             <input type="text" placeholder="Search any book" id="query" name="query" class="form-control mt-0">
         </form>
@@ -70,4 +70,4 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('auth0.admin.layout.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Repositories\Projects\Commission\Jericho\resources\views/auth0/admin/books/list.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('auth0.admin.layout.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Repositories\Projects\digital-library\resources\views/auth0/admin/books/list.blade.php ENDPATH**/ ?>

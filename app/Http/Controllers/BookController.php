@@ -117,6 +117,7 @@ class BookController extends Controller
         $search_for = $request->only('query');
 
         $info = Book::where('name', $search_for)->get();
+        $book_categories = Book::distinct('subject')->pluck('subject');
         
         if(!$info)
             return back()->with('status', 'Searched book is not found!');
@@ -127,7 +128,8 @@ class BookController extends Controller
             ]);
         else
             return view('auth0.admin.books.list', [
-                'books' => $info
+                'books' => $info,
+                'subjects' => $book_categories
             ]);
     }
 
@@ -138,14 +140,33 @@ class BookController extends Controller
         ]);
     }
 
-    public function view_books($subject = null){
+    public function view_books(){
+        $roles_url = "http://frozen-island-51326.herokuapp.com/roles";
+        $user_role = auth()->user()->$roles_url[0];
+
+        $books = Book::get();
+        $book_categories = Book::distinct('subject')->pluck('subject');
+        
+        if($user_role == "admin"){
+            return view('auth0.admin.books.list', [
+            'books' => $books,
+            'subjects' => $book_categories
+            ]);
+        }
+        
+        return view('auth0.user.books.list', [
+            'books' => $books,
+        ]);
+    }
+
+    public function filtered_view_books($subject){
         $roles_url = "http://frozen-island-51326.herokuapp.com/roles";
         $user_role = auth()->user()->$roles_url[0];
 
         $books = Book::get();
         $book_categories = Book::distinct('subject')->pluck('subject');
         $booksBySubject = Book::where('subject', $subject)->get();
-
+        
         if($user_role == "admin"){
             return view('auth0.admin.books.list', [
             'books' => $subject === null ? $books : $booksBySubject,

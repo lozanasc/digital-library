@@ -67,8 +67,7 @@ Route::get('/admin/books/new', function () {
 
 Route::get('/admin/books', [BookController::class, 'view_books'])->middleware(['auth0.authenticate']);
 Route::get('/admin/books/{id}', [BookController::class, 'preview'])->name('preview')->middleware(['auth0.authenticate']);
-Route::get('/admin/books/{subject}', [BookController::class, 'view_books'])->name('filterBySubject')->middleware(['auth0.authenticate']);
-Route::post('/admin/books', [BookController::class, 'search'])->name('admin_search')->middleware(['auth0.authenticate']);
+Route::get('/admin/books/filterBy/{subject}', [BookController::class, 'filtered_view_books'])->name('filterBySubject')->middleware(['auth0.authenticate']);
 Route::post('/admin/books/new', [BookController::class, "add_book_to_db"])->name("push_to_db")->middleware(['auth0.authenticate']);
 Route::get('/admin/books/edit/{id}', [BookController::class, "beforeEditBook"])->name("to_edit_book")->middleware(['auth0.authenticate']);
 Route::post('/admin/books/edit/{id}', [BookController::class, "editBook"])->name("editBook")->middleware(['auth0.authenticate']);

@@ -239,4 +239,4 @@
     <!--chartis chart-->
     
     </body>
-</html><?php /**PATH D:\Repositories\Projects\Commission\Jericho\resources\views/auth0/admin/layout/admin.blade.php ENDPATH**/ ?>
+</html><?php /**PATH D:\Repositories\Projects\digital-library\resources\views/auth0/admin/layout/admin.blade.php ENDPATH**/ ?>
