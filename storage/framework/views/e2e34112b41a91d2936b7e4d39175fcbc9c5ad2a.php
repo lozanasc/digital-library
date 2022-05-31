@@ -31,13 +31,12 @@
         <div class="row min-vh-100">
             <div class="col-xl-5 col-lg-6 col-md-8 p-5 p-lg-4 mx-auto d-flex align-items-center">
             <div>
-                <p> <img src="<?php echo e(asset('assets/logo.png')); ?>" height="128" width="128"  alt="Dumaguete City Seal Logo"></p>
+                <p> <img src="https://dumaguetecity.gov.ph/wp-content/uploads/2017/09/main-logo-150x150.png" height="128" width="128"  alt="Dumaguete City Seal Logo"></p>
                 <h1 class="text-uppercase">Dumaguete City Digital Library.</h1>
                 <p class="lead">We are working hard to bring to you our great project soon.</p>
-                <p>Coming soon/Under construction. </p>
                 <div class="d-flex flex-row">
-                    <a class="btn btn-primary my-2" href="<?php echo e(route('login')); ?>" role="button">Log me in</a>
-                    <a class="btn btn-secondary my-2 ml-1" href="/about" role="button">About</a>
+                    <a class="btn btn-primary my-2" href="<?php echo e(route('login')); ?>" role="button">Log in</a>
+                    <a class="btn btn-secondary my-2 ml-1" href="/about" role="button">Services</a>
                 </div>
                 <p class="credit">&copy; 2022 Brought to you by | The City of Dumaguete </p>
             </div>

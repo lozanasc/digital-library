@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ActivityLogsController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,6 +75,8 @@ Route::get('/admin/books/delete/{id}', [BookController::class, 'delete'])->name(
 Route::get('/admin/all/requests', [RequestController::class, 'view_all_requests'])->name('allRequests')->middleware(['auth0.authenticate']);
 Route::get('/admin/requests/approve/{id}', [RequestController::class, 'approve'])->name('approveRequest')->middleware(['auth0.authenticate']);
 Route::get('/admin/logs/view/{id}', [ActivityLogsController::class, 'viewLog'])->name('view_log')->middleware(['auth0.authenticate']);
+Route::get('/admin/users', [UserController::class, 'view_users'])->name('view_users')->middleware(['auth0.authenticate']);
+Route::get('/admin/users/delete/{id}', [UserController::class, 'delete_user'])->name('deleteUser')->middleware(['auth0.authenticate']);
 
 /*
 |--------------------------------------------------------------------------
@@ -94,13 +96,7 @@ Route::get('/user', function () {
     }
 })->middleware(['auth0.authenticate']);
 
-Route::get('/user/profile', function () {
-    if (Auth::check()) {
-        return view('auth0.user.profile.profile');
-    } else {
-        return view('landing');
-    }
-})->middleware(['auth0.authenticate']);
+
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -110,7 +106,6 @@ Route::get('/', function () {
 })->middleware(['auth0.authenticate.optional']);
 
 Route::get('/user/home', [UserHomeController::class, "home"])->middleware(['auth0.authenticate']);
-
 
 Route::get('/about', function () {
     return view('about');
@@ -124,18 +119,19 @@ Route::get('/user/books', function () {
     }
 })->middleware(['auth0.authenticate']);
 
+Route::get('/user/profile', [UserController::class, 'profile'])->middleware(['auth0.authenticate']);
+Route::post('/user/profile/update/{id}', [UserController::class, 'edit_user'])->name('edit_user')->middleware(['auth0.authenticate']);
 Route::get('/user/books', [BookController::class, 'view_books'])->middleware(['auth0.authenticate']);
 Route::get('/user/books/{id}', [BookController::class, 'preview'])->name('preview')->middleware(['auth0.authenticate']);
 Route::post('/user/books', [BookController::class, 'search'])->name('search')->middleware(['auth0.authenticate']);
 Route::get('/user/books/request/{id}', [RequestController::class, 'beforeRequestBook'])->name('requestBookPreview')->middleware(['auth0.authenticate']);
 Route::get('/user/books/request/cancel/{id}', [RequestController::class, 'cancel'])->name('cancelRequest')->middleware(['auth0.authenticate']);
 Route::post('/user/books/request/{book_name}', [RequestController::class, 'requestBook'])->name('requestBook')->middleware(['auth0.authenticate']);
-
+Route::get('/user/books/printable/{id}', [RequestController::class, 'previewPrintable'])->name('viewPrintable')->middleware(['auth0.authenticate']);
 Route::get('/user/my/books', [RequestController::class, 'view_books'])->name('myBooks')->middleware(['auth0.authenticate']);
-
 Route::get('/login', \Auth0\Laravel\Http\Controller\Stateful\Login::class)->name('login');
 Route::get('/logout', \Auth0\Laravel\Http\Controller\Stateful\Logout::class)->name('logout');
-Route::get('/auth0/callback', \Auth0\Laravel\Http\Controller\Stateful\Callback::class)->name('auth0.callback');
+Route::get('/auth0/callback',\Auth0\Laravel\Http\Controller\Stateful\Callback::class)->name('auth0.callback');
 
 /*
 |--------------------------------------------------------------------------

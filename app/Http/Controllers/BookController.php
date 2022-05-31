@@ -42,7 +42,7 @@ class BookController extends Controller
             return redirect('/user')->with('status', "You are not permitted to execute this operation!");
         else {
             $this->validate($request, [
-                'isbn' => ['required', 'min:13', 'max:17'],
+                'isbn' => 'required',
                 'title' => 'required',
                 'author' => 'required',
                 'physical_qty' => ['required', 'min:1'],
@@ -93,7 +93,6 @@ class BookController extends Controller
             
             if(!$delete)
             return redirect('/user')->with('status', "You are not permitted to execute this operation!");
-
             $book_deleted_log = ActivityLog::create([
                 'name' => auth()->user()->name,
                 'activity' => auth()->user()->name . " deleted " . $prev_book->name . " from the records ",
@@ -182,11 +181,12 @@ class BookController extends Controller
     public function add_book_to_db(Request $request){
         $roles_url = "http://frozen-island-51326.herokuapp.com/roles";
         $user_role = auth()->user()->$roles_url[0];
+        
         if($user_role == "user")
             return redirect('/user')->with('status', "You are not permitted to execute this operation!");
         else {
             $this->validate($request, [
-                'isbn' => ['required', 'min:13', 'max:17'],
+                'isbn' => 'required',
                 'title' => 'required',
                 'author' => 'required',
                 'physical_qty' => ['required', 'min:1'],

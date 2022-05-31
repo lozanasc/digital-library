@@ -26,7 +26,12 @@
                                             <td>{{ $book->status }}</td>
                                             <td>{{ $book->return_date }}</td>
                                             <td>
-                                                <a href="{{ route('cancelRequest', $book->id) }}" type="button" class="btn btn-danger">Cancel</a>
+                                                @if($book->status === "Pending")
+                                                    <a href="{{ route('cancelRequest', $book->id) }}" type="button" class="btn btn-danger">Cancel</a>
+                                                @endif
+                                                @if($book->status === "Approved")
+                                                    <a href="{{ route('viewPrintable', $book->id) }}" type="button" class="btn btn-success">Print</a>
+                                                @endif
                                             </td>
                                         </tr>
                                 @endforeach

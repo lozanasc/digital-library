@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <a href="{{ route('requestBookPreview', $info->id) }}" type="button" class="btn btn-primary">Request</a>
-                        @if(Storage::url($info->digital_copy) !== null)
+                        @if($info->digital_copy !== "")
                         <a 
                             type="button" class="btn btn-success"
                             href="{{ Storage::url($info->digital_copy) }}"

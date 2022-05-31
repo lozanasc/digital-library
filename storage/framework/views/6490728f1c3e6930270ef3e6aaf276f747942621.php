@@ -26,7 +26,12 @@
                                             <td><?php echo e($book->status); ?></td>
                                             <td><?php echo e($book->return_date); ?></td>
                                             <td>
-                                                <a href="<?php echo e(route('cancelRequest', $book->id)); ?>" type="button" class="btn btn-danger">Cancel</a>
+                                                <?php if($book->status === "Pending"): ?>
+                                                    <a href="<?php echo e(route('cancelRequest', $book->id)); ?>" type="button" class="btn btn-danger">Cancel</a>
+                                                <?php endif; ?>
+                                                <?php if($book->status === "Approved"): ?>
+                                                    <a href="<?php echo e(route('viewPrintable', $book->id)); ?>" type="button" class="btn btn-success">Print</a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

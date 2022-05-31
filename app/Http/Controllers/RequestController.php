@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\BookRequest;
+use App\Models\User;
 use App\Models\ActivityLog;
 
 class RequestController extends Controller
@@ -18,7 +19,7 @@ class RequestController extends Controller
             return redirect('/user')->with('status', "You are not permitted to execute this operation!");
 
         $to_approve = BookRequest::find($id);
-        $to_approve->status = "Approved";
+        $to_approve->status = "Approved";        
 
         $to_deduct = Book::where('name', $to_approve->book_name)->first();
         if($to_deduct->physical_qty > 0){
@@ -59,7 +60,7 @@ class RequestController extends Controller
             if($cancel_request){
                 $cancel_request_log = ActivityLog::create([
                     'name' => auth()->user()->name,
-                    'activity' => auth()->user()->name . " cancelled " . $to_return->name . " from the records ",
+                    'activity' => auth()->user()->name . $user_role === "user" ? " cancelled " : " request to borrow is rejected ". $to_return->name . " from the records ",
                     'changes' => "Book Request",
                     'role' => $user_role,
                 ]);
@@ -68,7 +69,6 @@ class RequestController extends Controller
             else
                 return redirect()->back()->with('status', 'Something went wrong, cancellation failed!');
         }
-
     }
 
     public function beforeRequestBook($id){
@@ -97,26 +97,64 @@ class RequestController extends Controller
         ]);
     }
 
+    public function previewPrintable($id){
+        $roles_url = "http://frozen-island-51326.herokuapp.com/roles";
+        $user_role = auth()->user()->$roles_url[0];
+
+        $requestInfo = BookRequest::where('id', $id)->first();
+        $userInfo = User::where('email', $requestInfo->request_name)->first();
+        if($requestInfo->status !== "Approved")
+        return redirect()->back()->with('status', 'No prinbtable available');
+        else {
+            $requestedBook = Book::where('name', $requestInfo->book_name)->first();
+            return view('auth0.user.books.printable', [
+                'request_info' => $requestInfo,
+                'requested_book' => $requestedBook,
+                'user_info' => $userInfo
+            ]);
+        }
+    }
+
     public function requestBook(Request $request, $book_name)
     {
+        $roles_url = "http://frozen-island-51326.herokuapp.com/roles";
+        $user_role = auth()->user()->$roles_url[0];
+
         $this->validate($request, [
             'reason' => 'required',
             'return_date' => 'required'
         ]);
+
+        $current_user = User::where('email', auth()->user()->email)->first();
+
         if(!auth()->user())
             return redirect('/')->with('status', 'Not allowed!');
         else {
-            $request_book = BookRequest::create([
-                'request_name' => auth()->user()->name,
-                'status' => "Pending",
-                'reason' => $request->reason,
-                'book_name' => $book_name,
-                'return_date' => $request->return_date,
-            ]);
-            if(!$request_book)
-                return redirect()->back()->with('status', 'Something went wrong, book insertion failed!');
-            else
-                return redirect()->back()->with('status', 'Request for the book: ' . $book_name . ' is successful');
+
+            if($current_user->contact === "" && $current_user->address === "")
+                return redirect('/user/profile')->with('status', 'Please add your contact and address before requesting.');
+            else {
+                $request_book = BookRequest::create([
+                    'request_name' => auth()->user()->name,
+                    'status' => "Pending",
+                    'reason' => $request->reason,
+                    'book_name' => $book_name,
+                    'printable' => "",
+                    'return_date' => $request->return_date,
+                ]);
+    
+                if(!$request_book)
+                    return redirect()->back()->with('status', 'Something went wrong, book insertion failed!');
+                else {
+                    $new_request_log = ActivityLog::create([
+                        'name' => auth()->user()->name,
+                        'activity' => auth()->user()->name . " requested to borrow the book " . $book_name . ".",
+                        'changes' => "Book Request",
+                        'role' => $user_role,
+                    ]);
+                    return redirect()->back()->with('status', 'Request for the book: ' . $book_name . ' is successful');
+                }
+            }
         }
     }
 }

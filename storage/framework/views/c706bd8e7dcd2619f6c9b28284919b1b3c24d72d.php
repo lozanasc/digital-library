@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('user_root'); ?>
+<?php $__env->startSection('admin_root'); ?>
     <div class="container-fluid">
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -30,8 +30,7 @@
         <div class="col-lg-8 col-xlg-9 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="<?php echo e(route("edit_user", auth()->user()->email)); ?>" method="POST" class="form-horizontal form-material">
-                        <?php echo csrf_field(); ?>
+                    <form class="form-horizontal form-material">
                         <div class="form-group mb-4">
                             <label class="col-md-12 p-0">Full Name</label>
                             <div class="col-md-12 border-bottom p-0">
@@ -48,29 +47,7 @@
                                     id="example-email">
                             </div>
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="example-email" class="col-md-12 p-0">Contact</label>
-                            <div class="col-md-12 border-bottom p-0">
-                                <input type="text" placeholder="Your contact details here"
-                                    value="<?php echo e($add_user_info->contact); ?>"
-                                    class="form-control p-0 border-0" name="contact"
-                                    id="contact">
-                            </div>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="example-email" class="col-md-12 p-0">Address</label>
-                            <div class="col-md-12 border-bottom p-0">
-                                <input type="text" placeholder="Your address here"
-                                    value="<?php echo e($add_user_info->address); ?>"
-                                    class="form-control p-0 border-0" name="address"
-                                    id="address">
-                            </div>
-                        </div>
-                        <div class="form-group mb-4">
-                            <div class="col-sm-12">
-                                <button class="btn btn-success">Update User</button>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
@@ -80,4 +57,4 @@
     <!-- Row -->
 </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('auth0.user.layout.user', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Repositories\Projects\digital-library\resources\views/auth0/user/profile/profile.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('auth0.admin.layout.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Repositories\Projects\digital-library\resources\views/auth0/admin/profile/profile.blade.php ENDPATH**/ ?>

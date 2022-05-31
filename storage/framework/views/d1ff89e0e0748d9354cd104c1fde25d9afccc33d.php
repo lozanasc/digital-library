@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <a href="<?php echo e(route('requestBookPreview', $info->id)); ?>" type="button" class="btn btn-primary">Request</a>
-                        <?php if(Storage::url($info->digital_copy) !== null): ?>
+                        <?php if($info->digital_copy !== ""): ?>
                         <a 
                             type="button" class="btn btn-success"
                             href="<?php echo e(Storage::url($info->digital_copy)); ?>"

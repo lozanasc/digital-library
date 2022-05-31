@@ -15,5 +15,6 @@ class BookRequest extends Model
         'reason',
         'book_name',
         'return_date',
+        'printable',
     ];
 }

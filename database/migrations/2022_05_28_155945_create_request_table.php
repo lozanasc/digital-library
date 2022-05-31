@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('return_date');
             $table->string('book_name');
             $table->string('status');
+            $table->string('printable');
             $table->timestamps();
         });
     }

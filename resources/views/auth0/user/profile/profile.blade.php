@@ -29,7 +29,8 @@
         <div class="col-lg-8 col-xlg-9 col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form class="form-horizontal form-material">
+                    <form action="{{ route("edit_user", auth()->user()->email) }}" method="POST" class="form-horizontal form-material">
+                        @csrf
                         <div class="form-group mb-4">
                             <label class="col-md-12 p-0">Full Name</label>
                             <div class="col-md-12 border-bottom p-0">
@@ -47,9 +48,26 @@
                             </div>
                         </div>
                         <div class="form-group mb-4">
-                            <label class="col-md-12 p-0">Password</label>
+                            <label for="example-email" class="col-md-12 p-0">Contact</label>
                             <div class="col-md-12 border-bottom p-0">
-                                <input disabled type="password" value="password" class="form-control p-0 border-0">
+                                <input type="text" placeholder="Your contact details here"
+                                    value="{{ $add_user_info->contact }}"
+                                    class="form-control p-0 border-0" name="contact"
+                                    id="contact">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="example-email" class="col-md-12 p-0">Address</label>
+                            <div class="col-md-12 border-bottom p-0">
+                                <input type="text" placeholder="Your address here"
+                                    value="{{ $add_user_info->address }}"
+                                    class="form-control p-0 border-0" name="address"
+                                    id="address">
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success">Update User</button>
                             </div>
                         </div>
                     </form>
