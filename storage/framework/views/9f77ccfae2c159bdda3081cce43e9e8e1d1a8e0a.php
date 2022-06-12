@@ -1,5 +1,5 @@
-@extends('auth0.admin.layout.admin')
-@section('admin_root')
+
+<?php $__env->startSection('admin_root'); ?>
     <div class="container-fluid">
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -19,24 +19,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(count($users) > 0)
-                                @foreach ($users as $user)
+                            <?php if(count($users) > 0): ?>
+                                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->email }}</td>
+                                        <td><?php echo e($user->id); ?></td>
+                                        <td><?php echo e($user->email); ?></td>
                                         <td>
-                                            {{ count(App\Models\BookRequest::where('request_name', $user->email)->get()) }}
+                                            <?php echo e(count(App\Models\BookRequest::where('request_name', $user->email)->get())); ?>
+
                                         </td>
                                         <td>
-                                            <a href="{{ route('deleteUser', $user->id) }}" type="button" class="btn btn-danger">Delete</a>
+                                            <a href="<?php echo e(route('deleteUser', $user->id)); ?>" type="button" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
-                                @endforeach
-                            @else
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php else: ?>
                             <h3>
                                 No users found!
                             </h3>
-                            @endif
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -44,4 +45,5 @@
         </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('auth0.admin.layout.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Repositories\Projects\Commission\digital-library\resources\views/auth0/admin/users/list.blade.php ENDPATH**/ ?>
